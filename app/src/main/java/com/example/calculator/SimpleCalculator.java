@@ -208,9 +208,8 @@ public class SimpleCalculator extends AppCompatActivity {
                             if(number2 == 0) {
                                 number1 = 0;
                                 number2 = 0;
-                                pressedKeys = "";
                                 toastShow(1);
-                                showScreen();
+
 
                             } else {
                                 result = number1 / (number2);
@@ -320,7 +319,7 @@ public class SimpleCalculator extends AppCompatActivity {
         String divideError = "You divided by 0!";
         String sqrtError = "You can't square root by a negative number";
         String lnError = "You can't determine the logarithm of a negative number";
-
+        String errorString = "Error";
         String chosenString = "";
 
         switch(value) {
@@ -336,8 +335,15 @@ public class SimpleCalculator extends AppCompatActivity {
                 chosenString = lnError;
                 break;
             }
+            case 4: {
+                chosenString = errorString;
+                break;
+            }
 
         }
+
+        pressedKeys = "";
+        showScreen();
 
         Toast toast=Toast.makeText(getApplicationContext(),chosenString,Toast.LENGTH_LONG);
         ViewGroup group = (ViewGroup) toast.getView();

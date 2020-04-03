@@ -201,7 +201,6 @@ public class AdvancedCalculator extends AppCompatActivity {
                         if(number2 == 0) {
                             number1 = 0;
                             number2 = 0;
-                            pressedKeys = "";
                             toastShow(1);
 
                         } else {
@@ -425,7 +424,7 @@ public class AdvancedCalculator extends AppCompatActivity {
         /*
         1 - add           x      5 - plus_min    x        9 - equals   x       13 - ln        x     17 - log x
         2 - sub           x      6 - cancel      x        10 - sin     x       14 - sqrt      x
-        3 - multiply      x     7 - backspace    x       11 - cos      x      15 - root (x^2) x
+        3 - multiply      x      7 - backspace    x       11 - cos      x      15 - root (x^2) x
         4 - divide        x      8 - dot         x        12 - tan     x       16 - root (x^y)
          */
     }
