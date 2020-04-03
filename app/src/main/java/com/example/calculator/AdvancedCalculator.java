@@ -1,0 +1,445 @@
+package com.example.calculator;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class AdvancedCalculator extends AppCompatActivity {
+
+
+    public String pressedKeys = new String("");
+    double number1 = 0;
+    double number2 = 0;
+    double result = 0;
+    double resultD = 0;
+    int sign = 0;  // on switch case
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        savedInstanceState.putString("MyString", pressedKeys);
+        savedInstanceState.putDouble("MyNumber", number1);
+        savedInstanceState.putInt("MySign", sign);
+
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+//onRestoreInstanceState
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+
+        String myString = savedInstanceState.getString("MyString");
+        double number = savedInstanceState.getDouble("MyNumber");
+        int signx = savedInstanceState.getInt("MySign");
+        number1 = number;
+        sign = signx;
+        if(myString != null) {
+            pressedKeys = myString;
+            showScreen();
+        }
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_advanced_calculator);
+
+        if(savedInstanceState != null) {
+            super.onRestoreInstanceState(savedInstanceState);
+        }
+
+        /*
+        1 - add                 5 - plus_min            9 - equals
+        2 - sub                 6 - cancel
+        3 - multiply            7 - backspace
+        4 - divide              8 - dot
+         */
+
+        Button oneButton = (Button) findViewById(R.id.oneButton);
+        Button twoButton = (Button) findViewById(R.id.twoButton);
+        Button threeButton = (Button) findViewById(R.id.threeButton);
+        Button fourButton = (Button) findViewById(R.id.fourButton);
+        Button fiveButton = (Button) findViewById(R.id.fiveButton);
+        Button sixButton = (Button) findViewById(R.id.sixButton);
+        Button sevenButton = (Button) findViewById(R.id.sevenButton);
+        Button eightButton = (Button) findViewById(R.id.eightButton);
+        Button nineButton = (Button) findViewById(R.id.nineButton);
+        Button zeroButton = (Button) findViewById(R.id.zeroButton);
+        Button dotButton = (Button) findViewById(R.id.dotButton);
+        Button equalsButton = (Button) findViewById(R.id.equalsButton);
+        Button addButton = (Button) findViewById(R.id.addButton);
+        Button subButton = (Button) findViewById(R.id.subButton);
+        Button multiplyButton = (Button) findViewById(R.id.multiplyButton);
+        Button divideButton = (Button) findViewById(R.id.divideButton);
+        Button backspaceButton = (Button) findViewById(R.id.backspaceButton);
+        Button cancelButton = (Button) findViewById(R.id.cancelButton);
+        Button plus_minButton = (Button) findViewById(R.id.plus_minButton);
+        Button sqrtButton = (Button) findViewById(R.id.sqrtButton);
+        Button rootButton = (Button) findViewById(R.id.rootButton);
+        Button root2Button = (Button) findViewById(R.id.root2Button);
+        Button logButton = (Button) findViewById(R.id.logButton);
+        Button lnButton = (Button) findViewById(R.id.lnButton);
+        Button tanButton = (Button) findViewById(R.id.tanButton);
+        Button cosButton = (Button) findViewById(R.id.cosButton);
+        Button sinButton = (Button) findViewById(R.id.sinButton);
+
+        oneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedKeys = pressedKeys + "1";
+                showScreen();
+            }
+        });
+
+        twoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedKeys = pressedKeys + "2";
+                showScreen();
+            }
+        });
+
+        threeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedKeys = pressedKeys + "3";
+                showScreen();
+            }
+        });
+
+        fourButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedKeys = pressedKeys + "4";
+                showScreen();
+            }
+        });
+
+        fiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedKeys = pressedKeys + "5";
+                showScreen();
+            }
+        });
+
+        sixButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedKeys = pressedKeys + "6";
+                showScreen();
+            }
+        });
+
+        sevenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedKeys = pressedKeys + "7";
+                showScreen();
+            }
+        });
+
+        eightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedKeys = pressedKeys + "8";
+                showScreen();
+            }
+        });
+
+        nineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedKeys = pressedKeys + "9";
+                showScreen();
+            }
+        });
+
+        zeroButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pressedKeys = pressedKeys + "0";
+                showScreen();
+            }
+        });
+
+        equalsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                number2 = Float.parseFloat(pressedKeys);
+                pressedKeys = "";
+
+                switch(sign) {
+                    case 1:
+                    {
+                        result = (number1) + (number2);
+                        showResult(result);
+                        break;
+                    }
+                    case 2:
+                    {
+                        result = number1 - number2;
+                        showResult(result);
+                        break;
+                    }
+                    case 3:
+                    {
+                        result = number1 * number2;
+                        showResult(result);
+                        break;
+                    }
+                    case 4:
+                    {
+                        if(number2 == 0) {
+                            number1 = 0;
+                            number2 = 0;
+                            pressedKeys = "";
+                            TextView resultTextView = (TextView) findViewById(R.id.resultTextView);
+                            resultTextView.setText("You devided by 0!");
+
+                        } else {
+                            result = number1 / (number2);
+                            showResult(result);
+                        }
+                        break;
+                    }
+
+                    case 16:
+                    {
+                        result = Math.pow(number1, number2);
+                        showResult(result);
+                        break;
+                    }
+                }
+
+            }
+        });
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setNumbers();
+                sign = 1;
+            }
+        });
+
+        subButton.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setNumbers();
+                sign = 2;
+            }
+        }));
+
+        multiplyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setNumbers();
+                sign = 3;
+            }
+        });
+
+        divideButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setNumbers();
+                sign = 4;
+            }
+        });
+
+        plus_minButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String minus = "-";
+
+                if(pressedKeys.startsWith(minus) == true) {
+                    pressedKeys = pressedKeys.substring(1);
+                } else {
+                    pressedKeys = minus.concat(pressedKeys);
+                }
+
+                showScreen();
+                sign = 5;
+            }
+        });
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                number1 = 0;
+                number2 = 0;
+                pressedKeys = "";
+                showScreen();
+            }
+        });
+
+        backspaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pressedKeys.length() != 0) {
+                    pressedKeys = pressedKeys.substring(0, pressedKeys.length()-1);
+                    showScreen();
+                }
+            }
+        });
+
+        dotButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pressedKeys.length() == 0) {
+                    pressedKeys = pressedKeys + "0.";
+                }
+
+                if(pressedKeys.contains(".") == false) {
+                    pressedKeys = pressedKeys + ".";
+                }
+
+                showScreen();
+            }
+        });
+
+        sinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pressedKeys.length() == 0) {
+                    pressedKeys = pressedKeys + "0";
+                    result = 0;
+                } else {
+                    result = Math.sin(Double.parseDouble(pressedKeys));
+                }
+                showResult(result);
+            }
+
+        });
+
+        cosButton.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pressedKeys.length() == 0) {
+                    pressedKeys = pressedKeys + "0";
+                    result = 0;
+                } else {
+                    result = Math.cos(Double.parseDouble(pressedKeys));
+                }
+                showResult(result);
+            }
+        }));
+
+        tanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pressedKeys.length() == 0) {
+                    pressedKeys = pressedKeys + "0";
+                    result = 0;
+                } else {
+                    result = Math.tan(Double.parseDouble(pressedKeys));
+                }
+                showResult(result);
+            }
+        });
+
+        lnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pressedKeys.length() == 0) {
+                    pressedKeys = pressedKeys + "0";
+                    result = 0;
+                } else {
+                    result = Math.log(Double.parseDouble(pressedKeys));
+                }
+                showResult(result);
+            }
+        });
+
+        logButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pressedKeys.length() == 0) {
+                    pressedKeys = pressedKeys + "0";
+                    result = 0;
+                } else {
+                    result = Math.log10(Double.parseDouble(pressedKeys));
+                }
+                showResult(result);
+            }
+        });
+
+        sqrtButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pressedKeys.length() == 0) {
+                    pressedKeys = pressedKeys + "0";
+                    result = 0;
+                } else {
+                    result = Math.sqrt(Double.parseDouble(pressedKeys));
+                }
+                showResult(result);
+            }
+        });
+
+        rootButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(pressedKeys.length() == 0) {
+                    pressedKeys = pressedKeys + "0";
+                    result = 0;
+                } else {
+                    result = Math.pow(Double.parseDouble(pressedKeys),2);
+                }
+                showResult(result);
+            }
+        });
+
+        root2Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setNumbers();
+                sign = 16;
+            }
+        });
+
+
+        /*
+        1 - add           x      5 - plus_min    x        9 - equals   x       13 - ln        x     17 - log x
+        2 - sub           x      6 - cancel      x        10 - sin     x       14 - sqrt      x
+        3 - multiply      x     7 - backspace    x       11 - cos      x      15 - root (x^2) x
+        4 - divide        x      8 - dot         x        12 - tan     x       16 - root (x^y)
+         */
+    }
+
+    private void setNumbers() {
+        if(pressedKeys.length() == 0) {
+            number1 = 0;
+        } else {
+            number1 = Double.parseDouble(pressedKeys);
+        }
+
+        pressedKeys = "";
+    }
+
+    private void showScreen() {
+        TextView resultTextView = (TextView) findViewById(R.id.resultTextView);
+        resultTextView.setText(pressedKeys);
+    }
+
+    private void showResult(double result) {
+        String resultS = Double.toString(result);
+        if(resultS.contains(".0") && resultS.endsWith("0")) {
+            resultS = resultS.substring(0, resultS.length()-2);
+        }
+        TextView resultTextView = (TextView) findViewById(R.id.resultTextView);
+        resultTextView.setText(resultS);
+        number1 = 0;
+        number2 = 0;
+        pressedKeys = String.valueOf(resultS);
+    }
+
+
+
+}
