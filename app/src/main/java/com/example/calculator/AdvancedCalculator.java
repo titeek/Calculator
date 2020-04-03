@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AdvancedCalculator extends AppCompatActivity {
 
@@ -200,8 +202,7 @@ public class AdvancedCalculator extends AppCompatActivity {
                             number1 = 0;
                             number2 = 0;
                             pressedKeys = "";
-                            TextView resultTextView = (TextView) findViewById(R.id.resultTextView);
-                            resultTextView.setText("You devided by 0!");
+                            toastShow(1);
 
                         } else {
                             result = number1 / (number2);
@@ -307,13 +308,14 @@ public class AdvancedCalculator extends AppCompatActivity {
         sinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pressedKeys.length() == 0) {
-                    pressedKeys = pressedKeys + "0";
+                if(pressedKeys.length() == 0 || (pressedKeys.length() == 1 && pressedKeys.startsWith("-"))) {
+                    toastShow(4);
                     result = 0;
                 } else {
                     result = Math.sin(Double.parseDouble(pressedKeys));
+                    showResult(result);
                 }
-                showResult(result);
+
             }
 
         });
@@ -321,78 +323,93 @@ public class AdvancedCalculator extends AppCompatActivity {
         cosButton.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pressedKeys.length() == 0) {
-                    pressedKeys = pressedKeys + "0";
+                if(pressedKeys.length() == 0 || (pressedKeys.length() == 1 && pressedKeys.startsWith("-"))) {
+                    toastShow(4);
                     result = 0;
                 } else {
                     result = Math.cos(Double.parseDouble(pressedKeys));
+                    showResult(result);
                 }
-                showResult(result);
+
             }
         }));
 
         tanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pressedKeys.length() == 0) {
-                    pressedKeys = pressedKeys + "0";
+                if(pressedKeys.length() == 0 || (pressedKeys.length() == 1 && pressedKeys.startsWith("-"))) {
+                    toastShow(4);
                     result = 0;
                 } else {
                     result = Math.tan(Double.parseDouble(pressedKeys));
+                    showResult(result);
                 }
-                showResult(result);
+
             }
         });
 
         lnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pressedKeys.length() == 0) {
-                    pressedKeys = pressedKeys + "0";
+                if(pressedKeys.length() == 0 || (pressedKeys.length() == 1 && pressedKeys.startsWith("-"))) {
+                    toastShow(4);
                     result = 0;
-                } else {
+                } else if(pressedKeys.startsWith("-") && pressedKeys.length()>=2) {
+                    toastShow(3);
+                    pressedKeys = "";
+                }else {
                     result = Math.log(Double.parseDouble(pressedKeys));
+                    showResult(result);
                 }
-                showResult(result);
+
             }
         });
 
         logButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pressedKeys.length() == 0) {
-                    pressedKeys = pressedKeys + "0";
+                if(pressedKeys.length() == 0 || (pressedKeys.length() == 1 && pressedKeys.startsWith("-"))) {
+                    toastShow(4);
                     result = 0;
-                } else {
+                } else if(pressedKeys.startsWith("-") && pressedKeys.length()>=2) {
+                    toastShow(3);
+                    pressedKeys = "";
+                }else {
                     result = Math.log10(Double.parseDouble(pressedKeys));
+                    showResult(result);
                 }
-                showResult(result);
+
             }
         });
 
         sqrtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pressedKeys.length() == 0) {
-                    pressedKeys = pressedKeys + "0";
+                if(pressedKeys.length() == 0 || (pressedKeys.length() == 1 && pressedKeys.startsWith("-"))) {
+                    toastShow(4);
                     result = 0;
+                } else if(pressedKeys.startsWith("-") && pressedKeys.length()>=2) {
+                    toastShow(2);
+                    pressedKeys = "";
                 } else {
                     result = Math.sqrt(Double.parseDouble(pressedKeys));
+                    showResult(result);
                 }
-                showResult(result);
+
             }
         });
 
         rootButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pressedKeys.length() == 0) {
-                    pressedKeys = pressedKeys + "0";
+                if(pressedKeys.length() == 0 || (pressedKeys.length() == 1 && pressedKeys.startsWith("-"))) {
+                    toastShow(4);
                     result = 0;
-                } else {
+                }  else {
                     result = Math.pow(Double.parseDouble(pressedKeys),2);
+                    showResult(result);
                 }
-                showResult(result);
+
             }
         });
 
@@ -411,6 +428,43 @@ public class AdvancedCalculator extends AppCompatActivity {
         3 - multiply      x     7 - backspace    x       11 - cos      x      15 - root (x^2) x
         4 - divide        x      8 - dot         x        12 - tan     x       16 - root (x^y)
          */
+    }
+
+    private void toastShow(int value) {
+
+        String divideError = "You divided by 0!";
+        String sqrtError = "You can't square root by a negative number";
+        String lnError = "You can't determine the logarithm of a negative number";
+        String errorString = "Error";
+        String chosenString = "";
+
+        switch(value) {
+            case 1: {
+                chosenString = divideError;
+                break;
+            }
+            case 2: {
+                chosenString = sqrtError;
+                break;
+            }
+            case 3: {
+                chosenString = lnError;
+                break;
+            }
+            case 4: {
+                chosenString = errorString;
+                break;
+            }
+        }
+
+        pressedKeys = "";
+        showScreen();
+
+        Toast toast=Toast.makeText(getApplicationContext(),chosenString,Toast.LENGTH_LONG);
+        ViewGroup group = (ViewGroup) toast.getView();
+        TextView messageTextView = (TextView) group.getChildAt(0);
+        messageTextView.setTextSize(30);
+        toast.show();
     }
 
     private void setNumbers() {

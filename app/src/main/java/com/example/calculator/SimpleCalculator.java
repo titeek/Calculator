@@ -3,9 +3,13 @@ package com.example.calculator;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.transition.Transition;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SimpleCalculator extends AppCompatActivity {
 
@@ -205,8 +209,8 @@ public class SimpleCalculator extends AppCompatActivity {
                                 number1 = 0;
                                 number2 = 0;
                                 pressedKeys = "";
-                                TextView resultTextView = (TextView) findViewById(R.id.resultTextView);
-                                resultTextView.setText("You devided by 0!");
+                                toastShow(1);
+                                showScreen();
 
                             } else {
                                 result = number1 / (number2);
@@ -309,6 +313,37 @@ public class SimpleCalculator extends AppCompatActivity {
         3 - multiply            7 - backspace
         4 - divide              8 - dot
          */
+    }
+
+    private void toastShow(int value) {
+
+        String divideError = "You divided by 0!";
+        String sqrtError = "You can't square root by a negative number";
+        String lnError = "You can't determine the logarithm of a negative number";
+
+        String chosenString = "";
+
+        switch(value) {
+            case 1: {
+                chosenString = divideError;
+                break;
+            }
+            case 2: {
+                chosenString = sqrtError;
+                break;
+            }
+            case 3: {
+                chosenString = lnError;
+                break;
+            }
+
+        }
+
+        Toast toast=Toast.makeText(getApplicationContext(),chosenString,Toast.LENGTH_LONG);
+        ViewGroup group = (ViewGroup) toast.getView();
+        TextView messageTextView = (TextView) group.getChildAt(0);
+        messageTextView.setTextSize(30);
+        toast.show();
     }
 
     private void setNumbers() {
